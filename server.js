@@ -9,27 +9,30 @@ const upload = multer({ limits: { fileSize: 5 * 1024 * 1024 } });
 
 app.use(cors());
 app.use(express.json());
-
-// --- FIX: SERVE YOUR FRONTEND FILES ---
-// This line tells Express to show your index.html, style.css, and script.js
 app.use(express.static('.'));
 
-// Health check endpoint (Used by Render to see if server is alive)
 app.get('/status', (req, res) => res.send('AI Server is Running!'));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// Note: Using the standard flash model for better stability on Render
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+// --- BETA UPDATE: GEMINI 3 FLASH + V1BETA ---
+const model = genAI.getGenerativeModel(
+    { model: "gemini-3-flash-preview" },
+    { apiVersion: 'v1beta' }
+);
 
 app.post('/chat', upload.single('file'), async (req, res) => {
     try {
-        let message = req.body.message;
-        
-        // Handle history safely
+        let message = req.body.message || "";
         let history = [];
+        
         if (req.body.history) {
             try {
-                history = typeof req.body.history === 'string' ? JSON.parse(req.body.history) : req.body.history;
+                const rawHistory = typeof req.body.history === 'string' ? JSON.parse(req.body.history) : req.body.history;
+                history = rawHistory.map(item => ({
+                    role: item.role,
+                    parts: [{ text: item.parts[0].text }]
+                }));
             } catch (e) {
                 console.error("History parse error:", e);
             }
@@ -47,11 +50,11 @@ app.post('/chat', upload.single('file'), async (req, res) => {
         res.json({ reply: response.text() });
     } catch (error) {
         console.error("AI Error:", error);
-        res.status(500).json({ reply: "The AI is having trouble thinking. Try again." });
+        res.status(500).json({ reply: "AI Error: " + error.message });
     }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server started on port ${PORT}`);
 });
