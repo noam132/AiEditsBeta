@@ -11,13 +11,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
-app.get('/status', (req, res) => res.send('AI Server is Running!'));
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// --- BETA UPDATE: GEMINI 3 FLASH + V1BETA ---
+// --- VERSATILE BETA SYSTEM INSTRUCTION ---
 const model = genAI.getGenerativeModel(
-    { model: "gemini-3-flash-preview" },
+    { 
+        model: "gemini-3-flash-preview",
+        systemInstruction: "You are a versatile Full-Stack Developer. You help with Roblox Luau, Minecraft Skript, HTML/CSS/JS web development, and general programming. Provide clean, copy-paste ready code blocks using triple backticks."
+    }, 
     { apiVersion: 'v1beta' }
 );
 
@@ -40,7 +41,7 @@ app.post('/chat', upload.single('file'), async (req, res) => {
         
         if (req.file) {
             const fileContent = req.file.buffer.toString('utf8');
-            message = `[FILE: ${req.file.originalname}]\n\n${fileContent}\n\nUSER: ${message || "Analyze this."}`;
+            message = `[FILE CONTENT: ${req.file.originalname}]\n\n${fileContent}\n\nUSER REQUEST: ${message || "Analyze this code."}`;
         }
 
         const chat = model.startChat({ history: history });
@@ -55,6 +56,4 @@ app.post('/chat', upload.single('file'), async (req, res) => {
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server started on port ${PORT}`);
-});
+app.listen(PORT, '0.0.0.0', () => console.log(`Beta Server running on ${PORT}`));
