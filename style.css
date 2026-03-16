@@ -1,11 +1,10 @@
 body {
     background: #090909;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
     color: #e6edf3;
 }
 
-/* Main Layout */
 .container {
     background: #1a1a1a;
     padding: 20px;
@@ -19,25 +18,6 @@ body {
     flex-direction: column;
 }
 
-/* Sidebar & Menu Styles */
-#chatList::-webkit-scrollbar {
-    width: 5px;
-}
-
-#chatList::-webkit-scrollbar-thumb {
-    background: #0088aa;
-    border-radius: 10px;
-}
-
-.chat-options-menu {
-    transition: opacity 0.2s ease;
-}
-
-.chat-options-menu div:hover {
-    background: #21262d;
-}
-
-/* Chat Log & Messages */
 #chatLog {
     flex: 1; 
     overflow-y: auto;
@@ -53,39 +33,38 @@ pre {
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 6px;
-    padding: 16px;
+    padding: 20px 15px 15px 15px;
     position: relative;
     overflow-x: auto;
-    margin: 10px 0;
+    margin: 15px 0;
 }
 
 code {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', monospace;
     color: #79c0ff;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .copy-btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 6px;
+    right: 6px;
     background: #21262d;
     color: #c9d1d9;
     border: 1px solid #30363d;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
-    z-index: 10;
-    transition: 0.2s;
+    z-index: 5;
 }
 
 .copy-btn:hover {
     background: #30363d;
-    border-color: #8b949e;
+    color: #58a6ff;
 }
 
-/* Inputs & Buttons */
 .input-area {
     display: flex;
     gap: 10px;
@@ -110,20 +89,4 @@ code {
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-#sendBtn:hover {
-    background: #0088aa;
-    box-shadow: 0 0 10px #00ffff;
-}
-
-.custom-file-upload {
-    background: transparent;
-    color: #00ffff;
-    border: 1px solid #00ffff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 13px;
 }
