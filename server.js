@@ -13,11 +13,11 @@ app.use(express.static('.'));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// --- FIXED SYSTEM INSTRUCTION ---
+// --- FIXED: USING GEMINI 3 FLASH + FULL PERSONALITY ---
 const model = genAI.getGenerativeModel(
     { 
         model: "gemini-3-flash-preview",
-        systemInstruction: "You are Gemini, a large language model, trained by Google. You are a highly capable assistant that can discuss any topic, answer questions, and provide expert-level code for Roblox, Minecraft, and Web Development. When sending code, always use triple backticks."
+        systemInstruction: "You are Gemini, a versatile AI assistant trained by Google. You are an expert in everything from general conversation to complex coding in Roblox, Minecraft, and Web Dev. Always use triple backticks for code."
     }, 
     { apiVersion: 'v1beta' }
 );
@@ -32,7 +32,7 @@ app.post('/chat', upload.single('file'), async (req, res) => {
 
         if (req.file) {
             const fileContent = req.file.buffer.toString('utf8');
-            message = `[File: ${req.file.originalname}]\n${fileContent}\n\nUser Message: ${message}`;
+            message = `[FILE: ${req.file.originalname}]\n${fileContent}\n\nUSER: ${message}`;
         }
 
         const chat = model.startChat({ history });
@@ -40,7 +40,7 @@ app.post('/chat', upload.single('file'), async (req, res) => {
         const response = await result.response;
         res.json({ reply: response.text() });
     } catch (error) {
-        res.status(500).json({ reply: "Server Error: " + error.message });
+        res.status(500).json({ reply: "Beta Error: " + error.message });
     }
 });
 
