@@ -1,14 +1,16 @@
 body {
     background: #090909;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    color: #e6edf3;
 }
 
+/* Main Layout */
 .container {
     background: #1a1a1a;
     padding: 20px;
     border-radius: 15px;
-    width: 80%; /* Adjusted for sidebar */
+    width: 90%;
     max-width: 800px;
     height: 85vh; 
     box-shadow: 0 0 20px #00ffff55;
@@ -17,31 +19,83 @@ body {
     flex-direction: column;
 }
 
+/* Sidebar & Menu Styles */
+#chatList::-webkit-scrollbar {
+    width: 5px;
+}
+
+#chatList::-webkit-scrollbar-thumb {
+    background: #0088aa;
+    border-radius: 10px;
+}
+
+.chat-options-menu {
+    transition: opacity 0.2s ease;
+}
+
+.chat-options-menu div:hover {
+    background: #21262d;
+}
+
+/* Chat Log & Messages */
 #chatLog {
     flex: 1; 
     overflow-y: auto;
-    background: #111;
+    background: #0d1117;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 15px;
-    border: 1px solid #333;
-    color: #fff;
+    border: 1px solid #30363d;
 }
 
-.custom-file-upload {
-    background: #1a1a1a;
-    color: #00ffff;
-    border: 1px solid #00ffff;
-    padding: 10px 20px;
-    border-radius: 5px;
+/* --- CODE BLOCK & COPY BUTTON STYLES --- */
+pre {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 16px;
+    position: relative;
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #79c0ff;
+    font-size: 14px;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
     cursor: pointer;
-    font-weight: 500;
+    z-index: 10;
+    transition: 0.2s;
+}
+
+.copy-btn:hover {
+    background: #30363d;
+    border-color: #8b949e;
+}
+
+/* Inputs & Buttons */
+.input-area {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 #messageInput {
     flex: 1;
     padding: 12px;
-    background: #222;
+    background: #0d1117;
     border: 1px solid #00ffff;
     color: #fff;
     border-radius: 5px;
@@ -56,4 +110,20 @@ body {
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+#sendBtn:hover {
+    background: #0088aa;
+    box-shadow: 0 0 10px #00ffff;
+}
+
+.custom-file-upload {
+    background: transparent;
+    color: #00ffff;
+    border: 1px solid #00ffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
 }
