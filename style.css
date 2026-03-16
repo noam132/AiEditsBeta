@@ -13,6 +13,28 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    box-shadow: 4px 0 15px rgba(0, 212, 255, 0.3);
+}
+
+/* FIXED: Neon New Chat Button */
+#newChatBtn {
+    background: #000;
+    color: #00ffff;
+    border: 2px solid #00ffff;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+#newChatBtn:hover {
+    background: #00ffff;
+    color: #000;
+    box-shadow: 0 0 20px #00ffff;
 }
 
 .container {
@@ -55,7 +77,6 @@ body {
     outline: none;
 }
 
-/* BIG NEON BUTTONS */
 .custom-file-upload {
     background: transparent;
     color: #00ffff;
@@ -78,7 +99,6 @@ body {
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
 }
 
-/* 3-DOTS MENU */
 .chat-options-menu {
     display: none;
     position: absolute;
@@ -89,14 +109,4 @@ body {
     border-radius: 8px;
     z-index: 100;
     min-width: 120px;
-}
-
-.chat-options-menu div {
-    padding: 10px;
-    cursor: pointer;
-}
-
-.chat-options-menu div:hover {
-    background: #00ffff;
-    color: #000;
 }
