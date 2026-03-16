@@ -6,30 +6,28 @@ require('dotenv').config();
 
 const app = express();
 
-// --- 1. FILE SIZE CHECK ---
-// Limits uploads to 5MB. Change '5' to '10' if you need bigger files.
+// --- FILE SIZE CHECK (5MB) ---
 const upload = multer({ limits: { fileSize: 5 * 1024 * 1024 } });
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
-// --- 2. DUMMY KEY SAFETY ---
-// Prevents crash if the API key isn't found in Render Environment Variables.
+// --- API KEY CONFIG ---
 const apiKey = process.env.GEMINI_API_KEY || "DUMMY_KEY";
 const genAI = new GoogleGenerativeAI(apiKey);
 
-// --- 3. MODEL & PERSONALITY ---
-// Gemini 3 Flash configured to be a general helper, but a pro at code.
+// --- MODEL & PERSONALITY ---
+// Using Gemini 3 Flash Preview as requested
 const model = genAI.getGenerativeModel(
     { 
         model: "gemini-3-flash-preview",
-        systemInstruction: "You are Gemini, a helpful AI assistant. You can talk about anything from games to daily life. You are also an expert in Roblox Luau, Minecraft Skript, and Web Dev. Only provide code when asked. Always use triple backticks for code blocks."
+        systemInstruction: "You are Gemini, a helpful assistant. You talk about anything naturally. If the user asks for coding help (Roblox, Minecraft, Web Dev), provide expert code in triple backticks."
     }, 
     { apiVersion: 'v1beta' }
 );
 
-// Health Check (For Render to stay awake)
+// Render Health Check
 app.get('/status', (req, res) => res.send('AI Server is Running!'));
 
 app.post('/chat', upload.single('file'), async (req, res) => {
@@ -37,31 +35,30 @@ app.post('/chat', upload.single('file'), async (req, res) => {
         let message = req.body.message || "";
         let history = [];
         
-        // Handle history safely to prevent JSON errors
+        // Safety check for history
         if (req.body.history) {
             try {
-                const parsedHistory = JSON.parse(req.body.history);
-                history = parsedHistory.map(item => ({
+                const parsed = JSON.parse(req.body.history);
+                history = parsed.map(item => ({
                     role: item.role,
                     parts: [{ text: item.parts[0].text }]
                 }));
             } catch (e) {
-                console.error("History parse warning:", e);
+                console.warn("History parse error:", e);
             }
         }
 
-        // --- 4. FILE CHECK ---
-        // If a file is uploaded, convert it to text and add it to the message.
+        // --- FILE CHECK ---
         if (req.file) {
             const fileContent = req.file.buffer.toString('utf8');
-            message = `[ATTACHED FILE: ${req.file.originalname}]\n\nCONTENT:\n${fileContent}\n\nUSER MESSAGE: ${message || "Analyze this file."}`;
+            message = `[FILE: ${req.file.originalname}]\n\nCONTENT:\n${fileContent}\n\nUSER MESSAGE: ${message || "Analyze this file."}`;
         }
 
-        // Safety: Don't send empty requests to Google
         if (!message && !req.file) {
-            return res.status(400).json({ reply: "Please type a message or select a file." });
+            return res.status(400).json({ reply: "Please enter a message." });
         }
 
+        // --- SENDING TO GEMINI ---
         const chat = model.startChat({ history });
         const result = await chat.sendMessage(message);
         const response = await result.response;
@@ -69,19 +66,20 @@ app.post('/chat', upload.single('file'), async (req, res) => {
         res.json({ reply: response.text() });
 
     } catch (error) {
-        console.error("Detailed Error:", error);
-        
-        // Friendly errors so the user knows what happened
-        if (apiKey === "DUMMY_KEY") {
-            res.status(500).json({ reply: "Error: API Key is missing. Set GEMINI_API_KEY in Render." });
+        console.error("Gemini Error:", error);
+
+        // Specific fix for "AI is Busy" / Rate Limits
+        if (error.message.includes("429") || error.message.includes("503")) {
+            res.status(500).json({ reply: "System is a bit crowded! Give me 10 seconds and try sending that again." });
+        } else if (apiKey === "DUMMY_KEY") {
+            res.status(500).json({ reply: "Error: API Key is missing from Render Environment Variables." });
         } else {
-            res.status(500).json({ reply: "The AI is currently busy. Please try again in a moment." });
+            res.status(500).json({ reply: "I had a tiny glitch processing that. Can you try one more time?" });
         }
     }
 });
 
-// Port configuration for Render
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server Online - Port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
