@@ -13,11 +13,11 @@ app.use(express.static('.'));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// --- FIXED: USING GEMINI 3 FLASH + FULL PERSONALITY ---
+// USING GEMINI 3 FLASH + FULL PERSONALITY
 const model = genAI.getGenerativeModel(
     { 
         model: "gemini-3-flash-preview",
-        systemInstruction: "You are Gemini, a versatile AI assistant trained by Google. You are an expert in everything from general conversation to complex coding in Roblox, Minecraft, and Web Dev. Always use triple backticks for code."
+        systemInstruction: "You are Gemini, a versatile AI assistant trained by Google. You are an expert in general conversation, creative tasks, and complex coding (Roblox Luau, Minecraft Skript, Web Dev). Always use triple backticks for code."
     }, 
     { apiVersion: 'v1beta' }
 );
@@ -25,14 +25,19 @@ const model = genAI.getGenerativeModel(
 app.post('/chat', upload.single('file'), async (req, res) => {
     try {
         let message = req.body.message || "";
-        let history = JSON.parse(req.body.history || "[]").map(item => ({
-            role: item.role,
-            parts: [{ text: item.parts[0].text }]
-        }));
+        let history = [];
+        
+        if (req.body.history) {
+            history = JSON.parse(req.body.history).map(item => ({
+                role: item.role,
+                parts: [{ text: item.parts[0].text }]
+            }));
+        }
 
+        // FILE HANDLING: Reads the file and adds it to the AI prompt
         if (req.file) {
             const fileContent = req.file.buffer.toString('utf8');
-            message = `[FILE: ${req.file.originalname}]\n${fileContent}\n\nUSER: ${message}`;
+            message = `[ATTACHED FILE: ${req.file.originalname}]\n\nCONTENT:\n${fileContent}\n\nUSER MESSAGE: ${message || "Analyze this file."}`;
         }
 
         const chat = model.startChat({ history });
@@ -40,7 +45,8 @@ app.post('/chat', upload.single('file'), async (req, res) => {
         const response = await result.response;
         res.json({ reply: response.text() });
     } catch (error) {
-        res.status(500).json({ reply: "Beta Error: " + error.message });
+        console.error(error);
+        res.status(500).json({ reply: "Server Error: I couldn't process that request." });
     }
 });
 
