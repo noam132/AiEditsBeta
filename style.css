@@ -5,8 +5,10 @@ body {
     display: flex;
     height: 100vh;
     color: #fff;
+    overflow: hidden;
 }
 
+/* SIDEBAR */
 #sidebar {
     width: 260px;
     background: #00d4ff; 
@@ -16,7 +18,7 @@ body {
     box-shadow: 4px 0 15px rgba(0, 212, 255, 0.3);
 }
 
-/* FIXED: Neon New Chat Button */
+/* NEON NEW CHAT BUTTON */
 #newChatBtn {
     background: #000;
     color: #00ffff;
@@ -37,6 +39,7 @@ body {
     box-shadow: 0 0 20px #00ffff;
 }
 
+/* MAIN CHAT AREA */
 .container {
     background: #111;
     padding: 25px;
@@ -61,6 +64,7 @@ body {
     border: 1px solid #1a1a1a;
 }
 
+/* INPUT & BUTTONS */
 .input-area {
     display: flex;
     gap: 12px;
@@ -75,6 +79,7 @@ body {
     color: #fff;
     border-radius: 8px;
     outline: none;
+    font-size: 16px;
 }
 
 .custom-file-upload {
@@ -88,25 +93,63 @@ body {
 }
 
 #sendBtn {
-    padding: 12px 40px;
+    padding: 15px 45px;
     background: #00ffff;
     color: #000;
     border: none;
     border-radius: 8px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    transition: 0.2s;
 }
 
+#sendBtn:hover { transform: scale(1.05); background: #fff; }
+
+/* 3-DOTS MENU */
 .chat-options-menu {
     display: none;
     position: absolute;
     right: 5px;
-    top: 40px;
+    top: 45px;
     background: #161b22;
     border: 1px solid #00ffff;
     border-radius: 8px;
-    z-index: 100;
+    z-index: 1000;
     min-width: 120px;
+    box-shadow: 0 0 15px #000;
+}
+
+.chat-options-menu div {
+    padding: 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.chat-options-menu div:hover { background: #00ffff; color: #000; }
+
+/* CODE BLOCKS */
+pre {
+    background: #0d1117;
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+    padding: 30px 15px 15px 15px;
+    position: relative;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #00ffff;
+    color: #000;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
 }
