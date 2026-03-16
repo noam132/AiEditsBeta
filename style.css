@@ -27,6 +27,12 @@ body {
     font-weight: bold;
     margin-bottom: 20px;
     transition: 0.3s;
+    text-transform: uppercase;
+}
+
+#newChatBtn:hover {
+    background: #222;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 /* --- MAIN CONTAINER --- */
@@ -72,7 +78,6 @@ body {
     font-size: 16px;
 }
 
-/* Fixed: The Styled Select File Button */
 .custom-file-upload {
     background: transparent;
     color: #00ffff;
@@ -82,17 +87,10 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
-    white-space: nowrap;
 }
 
-.custom-file-upload:hover {
-    background: rgba(0, 255, 255, 0.1);
-    box-shadow: 0 0 10px #00ffff;
-}
-
-/* Fixed: The Tiny Send Button */
 #sendBtn {
-    padding: 12px 30px;
+    padding: 12px 35px; /* Increased size */
     background: #00ffff;
     color: #000;
     border: none;
@@ -101,12 +99,32 @@ body {
     font-size: 16px;
     cursor: pointer;
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-    transition: 0.3s;
 }
 
-#sendBtn:hover {
-    background: #fff;
-    transform: scale(1.05);
+/* --- 3-DOTS MENU STYLES --- */
+.chat-options-menu {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    background: #161b22;
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+    z-index: 100;
+    min-width: 120px;
+    box-shadow: 0 0 15px #000;
+}
+
+.chat-options-menu div {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.chat-options-menu div:hover {
+    background: #00ffff;
+    color: #000;
 }
 
 /* Code Blocks */
@@ -131,5 +149,4 @@ pre {
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
-    cursor: pointer;
 }
