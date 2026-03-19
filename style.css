@@ -1,15 +1,13 @@
-/* --- GLOBAL STYLES --- */
 body {
-    background: #050505; /* Deeper black for better neon contrast */
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #050505;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
     display: flex;
     height: 100vh;
     color: #fff;
-    overflow: hidden; /* Prevents ugly double scrollbars */
+    overflow: hidden;
 }
 
-/* --- SIDEBAR (PC View) --- */
 #sidebar {
     width: 260px;
     background: #00d4ff; 
@@ -17,19 +15,20 @@ body {
     flex-direction: column;
     padding: 20px;
     box-shadow: 4px 0 15px rgba(0, 212, 255, 0.4);
-    transition: transform 0.3s ease;
-    z-index: 100;
+    box-sizing: border-box;
 }
 
+/* NEON NEW CHAT BUTTON */
 #newChatBtn {
     background: #000;
     color: #00ffff;
     border: 2px solid #00ffff;
-    padding: 12px;
+    padding: 15px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     margin-bottom: 20px;
+    transition: 0.3s;
     text-transform: uppercase;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
@@ -40,28 +39,18 @@ body {
     box-shadow: 0 0 20px #00ffff;
 }
 
-/* --- MAIN CHAT AREA --- */
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    width: 100%;
-}
-
 .container {
     background: #111;
-    padding: 20px;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 900px; /* Wider for PC */
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 900px;
     height: 85vh; 
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
     border: 1px solid #00ffff;
     display: flex;
     flex-direction: column;
+    margin: auto;
     box-sizing: border-box;
 }
 
@@ -69,99 +58,90 @@ body {
     flex: 1; 
     overflow-y: auto;
     background: #050505;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
 
-/* --- INPUT AREA --- */
 .input-area {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
 }
 
 #messageInput {
     flex: 1;
-    padding: 14px;
+    padding: 15px;
     background: #000;
     border: 1px solid #00ffff;
     color: #fff;
     border-radius: 8px;
     outline: none;
-    font-size: 16px; /* Prevents iOS from zooming in on focus */
+    font-size: 16px; /* Prevents mobile zoom */
 }
 
 #sendBtn {
-    padding: 12px 30px;
+    padding: 15px 45px;
     background: #00ffff;
     color: #000;
     border: none;
     border-radius: 8px;
     font-weight: bold;
+    font-size: 18px;
     cursor: pointer;
-    transition: 0.2s;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
-#sendBtn:hover {
-    transform: scale(1.05);
-    background: #fff;
+.chat-options-menu {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 45px;
+    background: #161b22;
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+    z-index: 1000;
+    min-width: 120px;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+.chat-options-menu div { padding: 12px; cursor: pointer; }
+.chat-options-menu div:hover { background: #00ffff; color: #000; }
+
+/* --- MOBILE RESPONSIVENESS ADDITION --- */
 @media (max-width: 768px) {
     body {
-        flex-direction: column; /* Sidebar goes on top, chat on bottom */
+        flex-direction: column; /* Stacks everything vertically */
+        overflow-y: auto;
     }
 
     #sidebar {
         width: 100%;
         height: auto;
         padding: 10px;
-        flex-direction: row; /* Chats scroll left-to-right on mobile */
-        overflow-x: auto;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
     #newChatBtn {
-        margin-bottom: 0;
-        margin-right: 10px;
-        font-size: 12px;
-        white-space: nowrap;
+        margin-bottom: 10px;
+        padding: 10px;
     }
 
     #chatList {
         display: flex;
         flex-direction: row;
-        gap: 8px;
-    }
-
-    .main-content {
-        padding: 10px;
-        height: calc(100vh - 80px); /* Fits remaining space */
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 10px;
     }
 
     .container {
-        height: 100%;
+        width: 100%;
+        height: 70vh; /* Leaves room for the sidebar above */
         border-radius: 10px;
-        padding: 12px;
-    }
-
-    .input-area {
-        gap: 8px;
-    }
-
-    #messageInput {
-        padding: 10px;
+        padding: 15px;
     }
 
     #sendBtn {
-        padding: 10px 15px;
-    }
-    
-    .custom-file-upload {
-        padding: 8px 12px;
-        font-size: 12px;
+        padding: 15px 20px;
+        font-size: 14px;
     }
 }
