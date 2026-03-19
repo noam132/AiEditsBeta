@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AiEdits Beta</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,22 +15,18 @@
     <div class="main-content">
         <div class="container">
             <h2 id="activeChatTitle" style="color:#00ffff; margin: 0 0 15px 0;">New Chat</h2>
-            
             <div id="chatLog"></div>
-            
             <div class="input-area">
                 <input type="file" id="fileInput" style="display:none;" onchange="document.getElementById('fileStatus').innerText = this.files[0] ? this.files[0].name : ''">
                 
-                <button type="button" class="custom-file-upload" onclick="document.getElementById('fileInput').click()">File</button>
+                <button type="button" class="custom-file-upload" onclick="document.getElementById('fileInput').click()">Select File</button>
                 
                 <input type="text" id="messageInput" placeholder="Message Gemini...">
-                
                 <button id="sendBtn">Send</button>
             </div>
             <span id="fileStatus" style="font-size: 11px; color: #00ffff; margin-top: 5px; display: block; height: 12px;"></span>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
