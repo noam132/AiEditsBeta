@@ -1,6 +1,10 @@
 body {
     background: #050505;
     font-family: 'Segoe UI', sans-serif;
+    /* --- BASE SETUP --- */
+body {
+    background: #050505;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
     display: flex;
     height: 100vh;
@@ -8,6 +12,7 @@ body {
     overflow: hidden;
 }
 
+/* --- SIDEBAR --- */
 #sidebar {
     width: 260px;
     background: #00d4ff; 
@@ -15,6 +20,8 @@ body {
     flex-direction: column;
     padding: 20px;
     box-shadow: 4px 0 15px rgba(0, 212, 255, 0.4);
+    box-sizing: border-box;
+    z-index: 10;
 }
 
 #newChatBtn {
@@ -37,7 +44,70 @@ body {
     box-shadow: 0 0 20px #00ffff;
 }
 
-/* FIX: This makes sure it stays full screen on laptop */
+#chatList {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* --- CHAT ITEM & FLOATING MENU --- */
+.chat-item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    color: #000; /* Dark text for contrast on the blue sidebar */
+    font-weight: 500;
+}
+
+.chat-item.active-chat {
+    border: 2px solid #000;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-options-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+    color: #000;
+}
+
+.chat-options-menu {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 40px;
+    background: #161b22;
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+    z-index: 1000;
+    min-width: 120px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.chat-options-menu.active {
+    display: block;
+}
+
+.chat-options-menu div {
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.chat-options-menu div:hover {
+    background: #00ffff;
+    color: #000;
+}
+
+/* --- MAIN CONTENT AREA --- */
 .main-content {
     flex: 1;
     display: flex;
@@ -57,6 +127,7 @@ body {
     border: 1px solid #00ffff;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 #chatLog {
@@ -68,13 +139,13 @@ body {
     margin-bottom: 20px;
 }
 
+/* --- INPUT AREA & NEON FILE BUTTON --- */
 .input-area {
     display: flex;
     gap: 12px;
     align-items: center;
 }
 
-/* NEON SELECT FILE BUTTON */
 .custom-file-upload {
     background: #000;
     color: #00ffff;
@@ -82,62 +153,3 @@ body {
     padding: 12px 15px;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-    white-space: nowrap;
-}
-
-.custom-file-upload:hover {
-    background: #00ffff;
-    color: #000;
-    box-shadow: 0 0 15px #00ffff;
-}
-
-#messageInput {
-    flex: 1;
-    padding: 15px;
-    background: #000;
-    border: 1px solid #00ffff;
-    color: #fff;
-    border-radius: 8px;
-    outline: none;
-}
-
-#sendBtn {
-    padding: 15px 45px;
-    background: #00ffff;
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-}
-
-/* MOBILE FIX */
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-        overflow-y: auto;
-    }
-    #sidebar {
-        width: 100%;
-        height: auto;
-        padding: 10px;
-    }
-    #chatList {
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-        gap: 10px;
-    }
-    .main-content {
-        height: auto;
-        padding: 10px;
-    }
-    .container {
-        height: 75vh;
-        width: 100%;
-    }
-}
