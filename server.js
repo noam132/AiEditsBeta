@@ -22,7 +22,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel(
     { 
         model: "gemini-3-flash-preview",
-        systemInstruction: "You are Gemini, a helpful assistant. You talk about anything naturally. If the user asks for coding help (Roblox, Minecraft, Web Dev), provide expert code in triple backticks."
+        systemInstruction: "You are Gemini, a helpful assistant.Your nickname is AiEdits. You talk about anything naturally. If the user asks for coding help (Roblox, Minecraft, Web Dev), provide expert code in triple backticks."
     }, 
     { apiVersion: 'v1beta' }
 );
